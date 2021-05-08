@@ -1,0 +1,149 @@
+import PyQt5
+from PyQt5 import QtCore, QtGui, QtWidgets
+import RPi.GPIO as GPIO
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.OUT)
+GPIO.output(18,GPIO.LOW)
+GPIO.setup(19, GPIO.OUT)
+GPIO.output(19,GPIO.LOW)
+GPIO.setup(21, GPIO.OUT)
+GPIO.output(21,GPIO.LOW)
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.setGeometry(250, 250, 350, 150)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        
+        self.redButton = QtWidgets.QRadioButton(self.centralwidget)
+        self.redButton.setGeometry(QtCore.QRect(10, 60, 110, 20))
+        self.redButton.setObjectName("RedButton")
+        
+        self.redButtonOn = QtWidgets.QRadioButton(self.centralwidget)
+        self.redButtonOn.setGeometry(QtCore.QRect(120, 60, 110, 20))
+        self.redButtonOn.setObjectName("RedButtonOn")
+        
+        self.redButtonOff = QtWidgets.QRadioButton(self.centralwidget)
+        self.redButtonOff.setGeometry(QtCore.QRect(230, 60, 110, 20))
+        self.redButtonOff.setObjectName("RedButtonOff")
+        
+        self.blueButton = QtWidgets.QRadioButton(self.centralwidget)
+        self.blueButton.setGeometry(QtCore.QRect(10, 85, 110, 20))
+        self.blueButton.setObjectName("BlueButton")
+        
+        self.blueButtonOn = QtWidgets.QRadioButton(self.centralwidget)
+        self.blueButtonOn.setGeometry(QtCore.QRect(120, 85, 110, 20))
+        self.blueButtonOn.setObjectName("BlueButtonOn")
+        
+        self.blueButtonOff = QtWidgets.QRadioButton(self.centralwidget)
+        self.blueButtonOff.setGeometry(QtCore.QRect(230, 85, 110, 20))
+        self.blueButtonOff.setObjectName("BlueButtonOff")
+        
+        self.greenButton = QtWidgets.QRadioButton(self.centralwidget)
+        self.greenButton.setGeometry(QtCore.QRect(10, 110, 110, 20))
+        self.greenButton.setObjectName("GreenButton")
+        
+        self.greenButtonOn = QtWidgets.QRadioButton(self.centralwidget)
+        self.greenButtonOn.setGeometry(QtCore.QRect(120, 110, 110, 20))
+        self.greenButtonOn.setObjectName("GreenButtonOn")
+        
+        self.greenButtonOff = QtWidgets.QRadioButton(self.centralwidget)
+        self.greenButtonOff.setGeometry(QtCore.QRect(230, 110, 110, 20))
+        self.greenButtonOff.setObjectName("GreenButtonOff")
+        
+        self.darkButton = QtWidgets.QRadioButton(self.centralwidget)
+        self.darkButton.setGeometry(QtCore.QRect(10, 35, 110, 20))
+        self.darkButton.setObjectName("DarkButton")
+        
+        self.brightButton = QtWidgets.QRadioButton(self.centralwidget)
+        self.brightButton.setGeometry(QtCore.QRect(10, 10, 110, 20))
+        self.brightButton.setObjectName("BrightButton")
+        
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 313, 21))
+        self.menubar.setObjectName("menubar")
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.redButton.clicked.connect(self.redLed)
+        self.redButtonOn.clicked.connect(self.redLedon)
+        self.redButtonOff.clicked.connect(self.redLedoff)
+        self.blueButton.clicked.connect(self.blueLed)
+        self.blueButtonOn.clicked.connect(self.blueLedon)
+        self.blueButtonOff.clicked.connect(self.blueLedoff)
+        self.greenButton.clicked.connect(self.greenLed)
+        self.greenButtonOn.clicked.connect(self.greenLedon)
+        self.greenButtonOff.clicked.connect(self.greenLedoff)
+        self.brightButton.clicked.connect(self.bright)
+        self.darkButton.clicked.connect(self.dark)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        self.redButton.setText(_translate("MainWindow", "Red"))
+        self.redButtonOn.setText(_translate("MainWindow", "Red On"))
+        self.redButtonOff.setText(_translate("MainWindow", "Red Off"))
+        self.blueButton.setText(_translate("MainWindow", "Blue"))
+        self.blueButtonOn.setText(_translate("MainWindow", "Blue On"))
+        self.blueButtonOff.setText(_translate("MainWindow", "Blue Off"))
+        self.greenButton.setText(_translate("MainWindow", "Green"))
+        self.greenButtonOn.setText(_translate("MainWindow", "Green On"))
+        self.greenButtonOff.setText(_translate("MainWindow", "Green Off"))
+        self.darkButton.setText(_translate("MainWindow", "All Dark"))
+        self.brightButton.setText(_translate("MainWindow", "All Bright"))
+
+    def redLed(self):
+        GPIO.output(18,GPIO.HIGH) # red led
+        GPIO.output(19,GPIO.LOW) # green led
+        GPIO.output(21,GPIO.LOW) # blue led
+        
+    def redLedon(self):
+        GPIO.output(18,GPIO.HIGH)
+        
+    def redLedoff(self):
+        GPIO.output(18,GPIO.LOW)
+
+    def blueLed(self):
+        GPIO.output(21,GPIO.HIGH)
+        GPIO.output(18,GPIO.LOW)
+        GPIO.output(19,GPIO.LOW)
+        
+    def blueLedon(self):
+        GPIO.output(21,GPIO.HIGH)
+        
+    def blueLedoff(self):
+        GPIO.output(21,GPIO.LOW)
+
+    def greenLed(self):
+        GPIO.output(19,GPIO.HIGH)
+        GPIO.output(18,GPIO.LOW)
+        GPIO.output(21,GPIO.LOW)
+        
+    def greenLedon(self):
+        GPIO.output(19,GPIO.HIGH)
+        
+    def greenLedoff(self):
+        GPIO.output(19,GPIO.LOW)
+
+    def bright(self):
+        GPIO.output(18,GPIO.HIGH)
+        GPIO.output(19,GPIO.HIGH)
+        GPIO.output(21,GPIO.HIGH)
+
+    def dark(self):
+        GPIO.output(18,GPIO.LOW)
+        GPIO.output(19,GPIO.LOW)
+        GPIO.output(21,GPIO.LOW)
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
